@@ -10,6 +10,12 @@ wolfRightImg.src = 'wolf_right.png';
 const eggImg = new Image();
 eggImg.src = 'egg.png';
 
+const bombImg = new Image();
+bombImg.src = 'bomb.png';
+
+const beamImg = new Image();
+beamImg.src = 'beam.png';
+
 let wolf = {
     x: canvas.width / 2 - 50,
     y: canvas.height - 100,
@@ -18,27 +24,38 @@ let wolf = {
     position: 0 // 0 - left-up, 1 - left-down, 2 - right-up, 3 - right-down
 };
 
-let eggs = [];
+let objects = [];
+let beams = [];
 let score = 0;
 let gameInterval;
-let eggInterval;
+let objectInterval;
+let speed = 2;
+let maxSpeed = 5;
 
 function drawWolf() {
     let wolfImage = wolf.position < 2 ? wolfLeftImg : wolfRightImg;
     ctx.drawImage(wolfImage, wolf.x, wolf.y, wolf.width, wolf.height);
 }
 
-function drawEggs() {
-    eggs.forEach(egg => {
-        ctx.drawImage(eggImg, egg.x - egg.radius, egg.y - egg.radius, egg.radius * 2, egg.radius * 2);
+function drawObjects() {
+    objects.forEach(object => {
+        let img = object.type === 'egg' ? eggImg : bombImg;
+        ctx.drawImage(img, object.x - object.radius, object.y - object.radius, object.radius * 2, object.radius * 2);
+    });
+}
+
+function drawBeams() {
+    beams.forEach(beam => {
+        ctx.drawImage(beamImg, beam.x, beam.y, beam.width, beam.height);
     });
 }
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBeams();
     drawWolf();
-    drawEggs();
-    moveEggs();
+    drawObjects();
+    moveObjects();
     checkCollisions();
 }
 
@@ -63,42 +80,63 @@ function moveWolf() {
     }
 }
 
-function moveEggs() {
-    eggs.forEach(egg => {
-        egg.y += egg.dy;
+function moveObjects() {
+    objects.forEach(object => {
+        object.y += object.dy;
     });
 }
 
 function checkCollisions() {
-    eggs.forEach((egg, index) => {
-        if (egg.y + egg.radius > wolf.y &&
-            egg.x > wolf.x &&
-            egg.x < wolf.x + wolf.width) {
-            score++;
-            document.getElementById('score').textContent = `Score: ${score}`;
-            eggs.splice(index, 1);
-        } else if (egg.y + egg.radius > canvas.height) {
-            eggs.splice(index, 1);
+    objects.forEach((object, index) => {
+        if (object.y + object.radius > wolf.y &&
+            object.x > wolf.x &&
+            object.x < wolf.x + wolf.width) {
+            if (object.type === 'egg') {
+                score++;
+                document.getElementById('score').textContent = `Score: ${score}`;
+            } else {
+                resetGame();
+            }
+            objects.splice(index, 1);
+        } else if (object.y + object.radius > canvas.height) {
+            objects.splice(index, 1);
         }
     });
 }
 
-function spawnEgg() {
-    const egg = {
+function spawnObject() {
+    const object = {
         x: Math.random() < 0.5 ? canvas.width / 4 : 3 * canvas.width / 4,
         y: 0,
         radius: 10,
-        dy: 2
+        dy: speed,
+        type: Math.random() < 0.8 ? 'egg' : 'bomb'
     };
-    eggs.push(egg);
+    objects.push(object);
 }
 
 function startGame() {
     score = 0;
     document.getElementById('score').textContent = `Score: ${score}`;
-    eggs = [];
+    objects = [];
+    beams = [
+        {x: canvas.width / 4 - 50, y: 0, width: 10, height: canvas.height},
+        {x: 3 * canvas.width / 4 - 50, y: 0, width: 10, height: canvas.height}
+    ];
     gameInterval = setInterval(update, 20);
-    eggInterval = setInterval(spawnEgg, 1000);
+    objectInterval = setInterval(spawnObject, 1000);
+    setInterval(() => {
+        if (speed < maxSpeed) {
+            speed += 0.1;
+        }
+    }, 5000);
+}
+
+function resetGame() {
+    clearInterval(gameInterval);
+    clearInterval(objectInterval);
+    speed = 2;
+    startGame();
 }
 
 // Обработка сенсоров устройства
