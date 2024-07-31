@@ -13,8 +13,17 @@ eggImg.src = 'egg.png';
 const bombImg = new Image();
 bombImg.src = 'bomb.png';
 
-const beamImg = new Image();
-beamImg.src = 'beam.png';
+const beamTopLeftImg = new Image();
+beamTopLeftImg.src = 'beam_topleft.png';
+
+const beamTopRightImg = new Image();
+beamTopRightImg.src = 'beam_topright.png';
+
+const beamBottomLeftImg = new Image();
+beamBottomLeftImg.src = 'beam_bottomleft.png';
+
+const beamBottomRightImg = new Image();
+beamBottomRightImg.src = 'beam_bottomright.png';
 
 let wolf = {
     x: canvas.width / 2 - 50,
@@ -25,7 +34,12 @@ let wolf = {
 };
 
 let objects = [];
-let beams = [];
+let beams = [
+    {img: beamTopLeftImg, x: 50, y: 50, width: 200, height: 50, angle: -45}, // top left
+    {img: beamTopRightImg, x: canvas.width - 250, y: 50, width: 200, height: 50, angle: 45}, // top right
+    {img: beamBottomLeftImg, x: 50, y: canvas.height - 100, width: 200, height: 50, angle: 45}, // bottom left
+    {img: beamBottomRightImg, x: canvas.width - 250, y: canvas.height - 100, width: 200, height: 50, angle: -45} // bottom right
+];
 let score = 0;
 let gameInterval;
 let objectInterval;
@@ -46,7 +60,11 @@ function drawObjects() {
 
 function drawBeams() {
     beams.forEach(beam => {
-        ctx.drawImage(beamImg, beam.x, beam.y, beam.width, beam.height);
+        ctx.save();
+        ctx.translate(beam.x, beam.y);
+        ctx.rotate(beam.angle * Math.PI / 180);
+        ctx.drawImage(beam.img, 0, 0, beam.width, beam.height);
+        ctx.restore();
     });
 }
 
@@ -82,6 +100,7 @@ function moveWolf() {
 
 function moveObjects() {
     objects.forEach(object => {
+        object.x += object.dx;
         object.y += object.dy;
     });
 }
@@ -98,18 +117,51 @@ function checkCollisions() {
                 resetGame();
             }
             objects.splice(index, 1);
-        } else if (object.y + object.radius > canvas.height) {
+        } else if (object.y + object.radius > canvas.height ||
+                   object.x + object.radius > canvas.width ||
+                   object.x - object.radius < 0) {
             objects.splice(index, 1);
         }
     });
 }
 
 function spawnObject() {
+    const position = Math.floor(Math.random() * 4);
+    let x, y, dx, dy;
+
+    switch (position) {
+        case 0: // top left
+            x = 50;
+            y = 50;
+            dx = speed / Math.sqrt(2);
+            dy = speed / Math.sqrt(2);
+            break;
+        case 1: // bottom left
+            x = 50;
+            y = canvas.height - 60;
+            dx = speed / Math.sqrt(2);
+            dy = -speed / Math.sqrt(2);
+            break;
+        case 2: // top right
+            x = canvas.width - 60;
+            y = 50;
+            dx = -speed / Math.sqrt(2);
+            dy = speed / Math.sqrt(2);
+            break;
+        case 3: // bottom right
+            x = canvas.width - 60;
+            y = canvas.height - 60;
+            dx = -speed / Math.sqrt(2);
+            dy = -speed / Math.sqrt(2);
+            break;
+    }
+
     const object = {
-        x: Math.random() < 0.5 ? canvas.width / 4 : 3 * canvas.width / 4,
-        y: 0,
+        x: x,
+        y: y,
         radius: 10,
-        dy: speed,
+        dx: dx,
+        dy: dy,
         type: Math.random() < 0.8 ? 'egg' : 'bomb'
     };
     objects.push(object);
@@ -119,10 +171,6 @@ function startGame() {
     score = 0;
     document.getElementById('score').textContent = `Score: ${score}`;
     objects = [];
-    beams = [
-        {x: canvas.width / 4 - 50, y: 0, width: 10, height: canvas.height},
-        {x: 3 * canvas.width / 4 - 50, y: 0, width: 10, height: canvas.height}
-    ];
     gameInterval = setInterval(update, 20);
     objectInterval = setInterval(spawnObject, 1000);
     setInterval(() => {
