@@ -35,10 +35,10 @@ let wolf = {
 
 let objects = [];
 let beams = [
-    {img: beamTopLeftImg, x: 150, y: 200, width: 200, height: 50, angle: 0}, // top left
-    {img: beamTopRightImg, x: 300, y: 0, width: 200, height: 50, angle: 0}, // top right
-    {img: beamBottomLeftImg, x: 150, y: canvas.height - 100, width: 300, height: 50, angle: 0}, // bottom left
-    {img: beamBottomRightImg, x: 300, y: canvas.height - 100, width: 300, height: 50, angle: 0} // bottom right
+    {img: beamTopLeftImg, x: 150, y: 200}, // top left
+    {img: beamTopRightImg, x: canvas.width - 250, y: 200}, // top right
+    {img: beamBottomLeftImg, x: 150, y: canvas.height - 100}, // bottom left
+    {img: beamBottomRightImg, x: canvas.width - 250, y: canvas.height - 100} // bottom right
 ];
 let score = 0;
 let gameInterval;
