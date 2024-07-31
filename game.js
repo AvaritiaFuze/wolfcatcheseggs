@@ -26,7 +26,7 @@ const beamBottomRightImg = new Image();
 beamBottomRightImg.src = 'beam_bottomright.png';
 
 let wolf = {
-    x: canvas.width / 2 - 50,
+    x: 0,
     y: canvas.height - 100,
     width: 100,
     height: 100,
@@ -35,10 +35,10 @@ let wolf = {
 
 let objects = [];
 let beams = [
-    {img: beamTopLeftImg, x: 50, y: 50, width: 200, height: 50, angle: -45}, // top left
-    {img: beamTopRightImg, x: canvas.width - 250, y: 50, width: 200, height: 50, angle: 45}, // top right
-    {img: beamBottomLeftImg, x: 50, y: canvas.height - 100, width: 200, height: 50, angle: 45}, // bottom left
-    {img: beamBottomRightImg, x: canvas.width - 250, y: canvas.height - 100, width: 200, height: 50, angle: -45} // bottom right
+    {img: beamTopLeftImg, x: 100, y: 50, width: 300, height: 10, angle: -45}, // top left
+    {img: beamTopRightImg, x: 400, y: 50, width: 300, height: 10, angle: 45}, // top right
+    {img: beamBottomLeftImg, x: 100, y: canvas.height - 150, width: 300, height: 10, angle: 45}, // bottom left
+    {img: beamBottomRightImg, x: 400, y: canvas.height - 150, width: 300, height: 10, angle: -45} // bottom right
 ];
 let score = 0;
 let gameInterval;
@@ -78,24 +78,14 @@ function update() {
 }
 
 function moveWolf() {
-    switch (wolf.position) {
-        case 0:
-            wolf.x = canvas.width / 4 - wolf.width / 2;
-            wolf.y = canvas.height / 4 - wolf.height / 2;
-            break;
-        case 1:
-            wolf.x = canvas.width / 4 - wolf.width / 2;
-            wolf.y = 3 * canvas.height / 4 - wolf.height / 2;
-            break;
-        case 2:
-            wolf.x = 3 * canvas.width / 4 - wolf.width / 2;
-            wolf.y = canvas.height / 4 - wolf.height / 2;
-            break;
-        case 3:
-            wolf.x = 3 * canvas.width / 4 - wolf.width / 2;
-            wolf.y = 3 * canvas.height / 4 - wolf.height / 2;
-            break;
-    }
+    const positions = [
+        {x: 150, y: 200}, // left-up
+        {x: 150, y: canvas.height - 100}, // left-down
+        {x: canvas.width - 250, y: 200}, // right-up
+        {x: canvas.width - 250, y: canvas.height - 100} // right-down
+    ];
+    wolf.x = positions[wolf.position].x;
+    wolf.y = positions[wolf.position].y;
 }
 
 function moveObjects() {
@@ -131,26 +121,26 @@ function spawnObject() {
 
     switch (position) {
         case 0: // top left
-            x = 50;
+            x = 100;
             y = 50;
             dx = speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 1: // bottom left
-            x = 50;
-            y = canvas.height - 60;
+            x = 100;
+            y = canvas.height - 150;
             dx = speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
         case 2: // top right
-            x = canvas.width - 60;
+            x = canvas.width - 250;
             y = 50;
             dx = -speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 3: // bottom right
-            x = canvas.width - 60;
-            y = canvas.height - 60;
+            x = canvas.width - 250;
+            y = canvas.height - 150;
             dx = -speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
