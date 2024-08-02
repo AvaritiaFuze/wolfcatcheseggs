@@ -35,9 +35,9 @@ let wolf = {
 
 let objects = [];
 let beams = [
-    {img: beamTopLeftImg, x: 130, y: 65, width: 300, height: 10, angle: 45}, // top left
+    {img: beamTopLeftImg, x: 130, y: 50, width: 300, height: 10, angle: 45}, // top left
     {img: beamTopRightImg, x: canvas.width - 150, y: 45, width: 300, height: 10, angle: -45}, // top right
-    {img: beamBottomLeftImg, x: 130, y: canvas.height - 40, width: 300, height: 10, angle: 45}, // bottom left
+    {img: beamBottomLeftImg, x: 130, y: canvas.height - 60, width: 300, height: 10, angle: 45}, // bottom left
     {img: beamBottomRightImg, x: canvas.width - 150, y: canvas.height - 60, width: 300, height: 10, angle: -45} // bottom right
 ];
 let score = 0;
