@@ -13,8 +13,17 @@ eggImg.src = 'egg.png';
 const bombImg = new Image();
 bombImg.src = 'bomb.png';
 
-const beamImg = new Image();
-beamImg.src = 'beam.png'; // Убедитесь, что путь к изображению правильный
+const beamTopLeftImg = new Image();
+beamTopLeftImg.src = 'beam_topleft.png';
+
+const beamTopRightImg = new Image();
+beamTopRightImg.src = 'beam_topright.png';
+
+const beamBottomLeftImg = new Image();
+beamBottomLeftImg.src = 'beam_bottomleft.png';
+
+const beamBottomRightImg = new Image();
+beamBottomRightImg.src = 'beam_bottomright.png';
 
 let wolf = {
     x: 0,
@@ -26,10 +35,10 @@ let wolf = {
 
 let objects = [];
 let beams = [
-    {img: beamImg, x: 70, y: 70, width: 300, height: 10, angle: 45}, // top left
-    {img: beamImg, x: canvas.width - 370, y: 70, width: 300, height: 10, angle: -45}, // top right
-    {img: beamImg, x: 70, y: canvas.height - 70, width: 300, height: 10, angle: -45}, // bottom left
-    {img: beamImg, x: canvas.width - 370, y: canvas.height - 70, width: 300, height: 10, angle: 45} // bottom right
+    {img: beamTopLeftImg, x: 100, y: 20, width: 300, height: 10, angle: -20}, // top left
+    {img: beamTopRightImg, x: 400, y: 20, width: 300, height: 10, angle: 20}, // top right
+    {img: beamBottomLeftImg, x: 100, y: canvas.height - 150, width: 300, height: 10, angle: 20}, // bottom left
+    {img: beamBottomRightImg, x: 400, y: canvas.height - 150, width: 300, height: 10, angle: -20} // bottom right
 ];
 let score = 0;
 let gameInterval;
@@ -52,9 +61,9 @@ function drawObjects() {
 function drawBeams() {
     beams.forEach(beam => {
         ctx.save();
-        ctx.translate(beam.x + beam.width / 2, beam.y + beam.height / 2); // Перемещаем начало координат в центр балки
-        ctx.rotate(beam.angle * Math.PI / 180); // Поворачиваем систему координат на угол балки
-        ctx.drawImage(beam.img, -beam.width / 2, -beam.height / 2, beam.width, beam.height); // Рисуем балку, центрируя ее
+        ctx.translate(beam.x, beam.y);
+        ctx.rotate(beam.angle * Math.PI / 180);
+        ctx.drawImage(beam.img, 0, 0, beam.width, beam.height);
         ctx.restore();
     });
 }
@@ -70,10 +79,10 @@ function update() {
 
 function moveWolf() {
     const positions = [
-        {x: 70, y: 200}, // left-up
-        {x: 70, y: canvas.height - 200}, // left-down
-        {x: canvas.width - 150, y: 200}, // right-up
-        {x: canvas.width - 150, y: canvas.height - 200} // right-down
+        {x: 150, y: 200}, // left-up
+        {x: 150, y: canvas.height - 100}, // left-down
+        {x: canvas.width - 250, y: 200}, // right-up
+        {x: canvas.width - 250, y: canvas.height - 100} // right-down
     ];
     wolf.x = positions[wolf.position].x;
     wolf.y = positions[wolf.position].y;
@@ -112,26 +121,26 @@ function spawnObject() {
 
     switch (position) {
         case 0: // top left
-            x = 70;
-            y = 70;
+            x = 100;
+            y = 50;
             dx = speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 1: // bottom left
-            x = 70;
-            y = canvas.height - 70;
+            x = 100;
+            y = canvas.height - 150;
             dx = speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
         case 2: // top right
-            x = canvas.width - 370;
-            y = 70;
+            x = canvas.width - 250;
+            y = 50;
             dx = -speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 3: // bottom right
-            x = canvas.width - 370;
-            y = canvas.height - 70;
+            x = canvas.width - 250;
+            y = canvas.height - 150;
             dx = -speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
