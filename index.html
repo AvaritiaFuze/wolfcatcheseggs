@@ -12,69 +12,18 @@
             height: 100vh;
             margin: 0;
         }
-        #gameArea {
-            position: relative;
-            width: 800px;
-            height: 600px;
-            background-color: #fff;
+        #gameCanvas {
             border: 2px solid #000;
         }
-        .beam {
+        #score {
             position: absolute;
-            width: 300px;
-            height: 10px;
-            background: url('path/to/your/beam.png') no-repeat center;
-            background-size: cover;
-        }
-        .beam.top-left {
-            top: 50px;
-            left: 50px;
-            transform: rotate(45deg);
-        }
-        .beam.top-right {
-            top: 50px;
-            right: 50px;
-            transform: rotate(-45deg);
-        }
-        .beam.bottom-left {
-            bottom: 50px;
-            left: 50px;
-            transform: rotate(-45deg);
-        }
-        .beam.bottom-right {
-            bottom: 50px;
-            right: 50px;
-            transform: rotate(45deg);
-        }
-        #wolf {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: url('path/to/wolf.png') no-repeat center;
-            background-size: cover;
-        }
-        .egg, .bomb {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-size: cover;
-        }
-        .egg {
-            background: url('path/to/egg.png') no-repeat center;
-        }
-        .bomb {
-            background: url('path/to/bomb.png') no-repeat center;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
-    <div id="gameArea">
-        <div class="beam top-left"></div>
-        <div class="beam top-right"></div>
-        <div class="beam bottom-left"></div>
-        <div class="beam bottom-right"></div>
-        <div id="wolf"></div>
-    </div>
-    <script src="game.js"></script>
-</body>
-</html>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
