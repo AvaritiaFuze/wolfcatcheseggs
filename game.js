@@ -27,9 +27,9 @@ let wolf = {
 let objects = [];
 let beams = [
     {img: beamImg, x: 50, y: 150, width: 300, height: 10, angle: 45}, // top left
-    {img: beamImg, x: canvas.width - 350, y: 150, width: 300, height: 10, angle: 90}, // top right
+    {img: beamImg, x: canvas.width - 350, y: 150, width: 300, height: 10, angle: 135}, // top right
     {img: beamImg, x: 50, y: canvas.height - 150, width: 300, height: 10, angle: 45}, // bottom left
-    {img: beamImg, x: canvas.width - 350, y: canvas.height - 150, width: 300, height: 10, angle: 90} // bottom right
+    {img: beamImg, x: canvas.width - 350, y: canvas.height - 150, width: 300, height: 10, angle: 135} // bottom right
 ];
 let score = 0;
 let gameInterval;
