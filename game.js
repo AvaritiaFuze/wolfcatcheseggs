@@ -28,7 +28,7 @@ let objects = [];
 let beams = [
     {img: beamImg, x: 50, y: 150, width: 300, height: 10, angle: 45}, // top left
     {img: beamImg, x: canvas.width - 350, y: 150, width: 300, height: 10, angle: -45}, // top right
-    {img: beamImg, x: 50, y: canvas.height - 150, width: 300, height: 10, angle: -45}, // bottom left
+    {img: beamImg, x: 50, y: canvas.height - 150, width: 300, height: 10, angle: 45}, // bottom left
     {img: beamImg, x: canvas.width - 350, y: canvas.height - 150, width: 300, height: 10, angle: 45} // bottom right
 ];
 let score = 0;
