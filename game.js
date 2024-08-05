@@ -26,10 +26,10 @@ let wolf = {
 
 let objects = [];
 let beams = [
-    {img: beamImg, x: 50, y: 100, width: 400, height: 10, angle: 45}, // top left
-    {img: beamImg, x: canvas.width - 450, y: 100, width: 400, height: 10, angle: -45}, // top right
-    {img: beamImg, x: 50, y: canvas.height - 150, width: 400, height: 10, angle: -45}, // bottom left
-    {img: beamImg, x: canvas.width - 450, y: canvas.height - 150, width: 400, height: 10, angle: 45} // bottom right
+    {img: beamImg, x: 50, y: 150, width: 300, height: 10, angle: 45}, // top left
+    {img: beamImg, x: canvas.width - 350, y: 150, width: 300, height: 10, angle: -45}, // top right
+    {img: beamImg, x: 50, y: canvas.height - 150, width: 300, height: 10, angle: -45}, // bottom left
+    {img: beamImg, x: canvas.width - 350, y: canvas.height - 150, width: 300, height: 10, angle: 45} // bottom right
 ];
 let score = 0;
 let gameInterval;
@@ -70,9 +70,9 @@ function update() {
 
 function moveWolf() {
     const positions = [
-        {x: 100, y: 150}, // left-up
+        {x: 100, y: 200}, // left-up
         {x: 100, y: canvas.height - 250}, // left-down
-        {x: canvas.width - 200, y: 150}, // right-up
+        {x: canvas.width - 200, y: 200}, // right-up
         {x: canvas.width - 200, y: canvas.height - 250} // right-down
     ];
     wolf.x = positions[wolf.position].x;
@@ -112,26 +112,26 @@ function spawnObject() {
 
     switch (position) {
         case 0: // top left
-            x = 150;
-            y = 100;
+            x = 50;
+            y = 150;
             dx = speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 1: // bottom left
-            x = 150;
-            y = canvas.height - 100;
+            x = 50;
+            y = canvas.height - 150;
             dx = speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
         case 2: // top right
-            x = canvas.width - 450;
-            y = 100;
+            x = canvas.width - 350;
+            y = 150;
             dx = -speed / Math.sqrt(2);
             dy = speed / Math.sqrt(2);
             break;
         case 3: // bottom right
-            x = canvas.width - 450;
-            y = canvas.height - 100;
+            x = canvas.width - 350;
+            y = canvas.height - 150;
             dx = -speed / Math.sqrt(2);
             dy = -speed / Math.sqrt(2);
             break;
